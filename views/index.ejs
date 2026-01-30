@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Discord Form</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <div class="title">Discord Form</div>
+        <div class="subtitle">
+          Logged in as <b><%= user.username %></b>
+          <% if (user.globalName) { %>
+            (Global: <b><%= user.globalName %></b>)
+          <% } %>
+          — ID: <code><%= user.id %></code>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="link" href="<%= redirectUrl %>" target="_blank" rel="noreferrer">Target Discord Message</a>
+        <a class="link" href="/logout">Logout</a>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="panel">
+        <h2>Submit</h2>
+
+        <form method="POST" action="/submit" id="theForm">
+          <div class="field">
+            <label>Discord Username</label>
+            <input type="text" value="<%= user.username %>" readonly />
+          </div>
+
+          <div class="field">
+            <label>Global Display Name</label>
+            <input type="text" value="<%= user.globalName || '' %>" readonly />
+          </div>
+
+          <div class="field">
+            <label for="favoriteColor">Favorite Color</label>
+            <input id="favoriteColor" name="favoriteColor" maxlength="50" placeholder="e.g. purple" required />
+          </div>
+
+          <div class="field">
+            <label for="message">Quick Message</label>
+            <textarea id="message" name="message" maxlength="500" placeholder="Say something short..." required></textarea>
+          </div>
+
+          <button type="submit">Submit</button>
+          <div class="hint">On submit, you’ll be redirected to the configured Discord message.</div>
+        </form>
+      </section>
+
+      <section class="panel right">
+        <h2>Results</h2>
+
+        <div class="card">
+          <div class="cardTitle">Live Preview</div>
+          <div class="row"><span class="k">Username</span> <span class="v"><%= user.username %></span></div>
+          <div class="row"><span class="k">Global</span> <span class="v"><%= user.globalName || '(none)' %></span></div>
+          <div class="row"><span class="k">Favorite</span> <span class="v" id="previewColor">(waiting…)</span></div>
+          <div class="row"><span class="k">Message</span> <span class="v" id="previewMsg">(waiting…)</span></div>
+        </div>
+
+        <div class="card">
+          <div class="cardTitle">Last Submission</div>
+          <% if (!lastSubmission) { %>
+            <div class="muted">No submissions yet.</div>
+          <% } else { %>
+            <div class="muted">Submitted at <b><%= lastSubmission.submitted_at %></b></div>
+            <div class="row"><span class="k">User</span> <span class="v"><%= lastSubmission.discord_username %></span></div>
+            <div class="row"><span class="k">Global</span> <span class="v"><%= lastSubmission.discord_global_name || '(none)' %></span></div>
+            <div class="row"><span class="k">Color</span> <span class="v"><%= lastSubmission.favorite_color %></span></div>
+            <div class="row"><span class="k">Message</span> <span class="v"><%= lastSubmission.message %></span></div>
+          <% } %>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const colorEl = document.getElementById("favoriteColor");
+      const msgEl = document.getElementById("message");
+      const previewColor = document.getElementById("previewColor");
+      const previewMsg = document.getElementById("previewMsg");
+
+      function sync() {
+        previewColor.textContent = colorEl.value.trim() || "(waiting…)";
+        previewMsg.textContent = msgEl.value.trim() || "(waiting…)";
+
+        // tiny nicety: try to colorize the preview label if it's a valid CSS color
+        previewColor.style.color = "";
+        const test = document.createElement("div");
+        test.style.color = "";
+        test.style.color = colorEl.value.trim();
+        if (test.style.color) previewColor.style.color = colorEl.value.trim();
+      }
+
+      colorEl.addEventListener("input", sync);
+      msgEl.addEventListener("input", sync);
+      sync();
+    </script>
+  </body>
+</html>
