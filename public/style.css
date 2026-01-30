@@ -1,0 +1,119 @@
+:root {
+  --bg: #0f1115;
+  --panel: #161a22;
+  --text: #e9eef7;
+  --muted: #a8b3c7;
+  --border: #2a3140;
+  --btn: #2b66f6;
+  --btn2: #224fc0;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  background: #0b0d12;
+}
+
+.title { font-size: 18px; font-weight: 700; }
+.subtitle { color: var(--muted); font-size: 13px; margin-top: 2px; }
+.actions { display: flex; gap: 12px; align-items: center; }
+.link { color: var(--text); text-decoration: none; opacity: 0.9; }
+.link:hover { opacity: 1; text-decoration: underline; }
+
+.wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 14px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  min-height: 200px;
+}
+
+.panel h2 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+}
+
+.field { margin-bottom: 12px; }
+label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+
+input, textarea {
+  width: 100%;
+  padding: 10px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0c0f15;
+  color: var(--text);
+  outline: none;
+}
+
+textarea { min-height: 120px; resize: vertical; }
+
+button {
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--btn);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+button:hover { background: var(--btn2); }
+
+.hint { margin-top: 10px; font-size: 12px; color: var(--muted); }
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 12px;
+  background: rgba(0,0,0,0.15);
+}
+
+.cardTitle {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(42, 49, 64, 0.6);
+}
+.row:last-child { border-bottom: none; }
+
+.k { width: 90px; color: var(--muted); font-size: 12px; }
+.v { flex: 1; font-size: 13px; word-break: break-word; }
+
+.muted { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+code {
+  background: rgba(255,255,255,0.07);
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+@media (max-width: 900px) {
+  .wrap { grid-template-columns: 1fr; }
+}
